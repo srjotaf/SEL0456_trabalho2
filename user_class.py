@@ -1,7 +1,7 @@
 class Usuario(object):
-    def __init__(self, username, senha_digitada, lista_de_usuarios):
-        if username is None:
-            self._perguntas()
+    def __init__(self, username=None, senha_digitada=None, lista_de_usuarios=None):
+        if lista_de_usuarios is None:
+            self._criar_novo(username, senha_digitada)
         else:
             self._acessar_usuario(username, senha_digitada, lista_de_usuarios)
 
@@ -23,14 +23,15 @@ class Usuario(object):
                     break
             criar=input("O usuario digitado nao existe no banco de dados. Deseja criar um novo usuario? S/N")
             if (criar=='S'):
-                self._perguntas(lista_de_usuarios)
+                self._perguntas()
             if (criar=='N'):
                 pass            
 
         
     
-    def _perguntas(self,lista_de_usuarios):
+    def _perguntas(self):
         username=input("Digite o username do novo usuario:")
         hash_senha=input("Digite a senha:")
         
         self._criar_novo(username, hash_senha)
+
