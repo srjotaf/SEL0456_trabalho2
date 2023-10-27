@@ -1,3 +1,5 @@
+import bcrypt
+
 class Usuario(object):
     """ A classe Usuario tem como parâmetros username, senha_digitada, e lista_de_usuarios.
     Ela pode ser chamada de 3 maneiras:
@@ -29,7 +31,7 @@ class Usuario(object):
         
         self._criar_novo(username, hash_senha)
 
-    def _criar_novo(self,username, hash_senha,tipo="comum"):
+    def _criar_novo(self,username, senha,tipo="comum"):
         """Faz a atribuição de valores para os atributos de uma nova instância da classe.
         Retorna uma instância da classe Usuario.
 
@@ -42,6 +44,7 @@ class Usuario(object):
             Usuario: Uma nova instância da classe Usuario. 
         """
         self.username=username
+        hash_senha=bcrypt.hashpw(senha.encode('utf-8'),bcrypt.gensalt())
         self.hash_senha=hash_senha
         self.tipo=1
         return self
@@ -57,7 +60,7 @@ class Usuario(object):
         """
         for i in lista_de_usuarios:
             if (username_digitado==i.username):
-                if (senha_digitada==i.hash_senha):
+                if (bcrypt.checkpw(senha_digitada.encode('utf-8'),i.hash_senha)):
                     print("Acesso permitido ao usuario {}. Com atribuição do tipo {}".format(username_digitado,i.tipo))
                     return self
                 else:
